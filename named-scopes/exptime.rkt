@@ -1,10 +1,10 @@
 #lang racket
 
 (require (for-template '#%kernel)
-         type-expander/debug-scopes
+         debug-scopes
          racket/syntax
          racket/struct
-         type-expander/debug-scopes)
+         debug-scopes)
 
 (provide make-named-scope
          named-transformer

@@ -1,7 +1,6 @@
 #lang racket
 
 (require (for-syntax debug-scopes/named-scopes
-                     type-expander/debug-scopes ;;;
                      syntax/stx))
 
 (begin-for-syntax

@@ -6,7 +6,7 @@
                     racket/contract]]
 
 @title{Debuging scope-related issues}
-@author{@author+email["Georges Dupéron" "georges.duperon@gmail.com"]}
+@author[@author+email["Georges Dupéron" "georges.duperon@gmail.com"]]
 
 @defmodule[debug-scopes]
 

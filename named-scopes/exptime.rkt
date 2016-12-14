@@ -4,11 +4,11 @@
          debug-scopes
          racket/syntax
          racket/struct
-         debug-scopes)
+         debug-scopes
+         debug-scopes/named-scopes-sli-parameter)
 
 (provide make-named-scope
-         named-transformer
-         (rename-out [-syntax-local-introduce syntax-local-introduce]))
+         named-transformer)
 
 (define (make-named-scope nm)
   (define name (if (symbol? nm) nm (string->symbol nm)))
@@ -98,10 +98,3 @@
 
 (define-syntax-rule (named-transformer (name stx) . body)
   (named-transformer-wrap 'name (λ (stx) . body)))
-
-(define sli-scopes (make-parameter #f))
-
-(define (-syntax-local-introduce stx)
-  (if (sli-scopes)
-      ((sli-scopes) stx 'flip)
-      (syntax-local-introduce stx)))

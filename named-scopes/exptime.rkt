@@ -10,11 +10,6 @@
          named-transformer
          (rename-out [-syntax-local-introduce syntax-local-introduce]))
 
-(define (use-site-context?)
-  (not (bound-identifier=? (syntax-local-introduce #'here)
-                           (syntax-local-identifier-as-binding
-                            (syntax-local-introduce #'here)))))
-
 (define (make-named-scope nm)
   (define name (if (symbol? nm) nm (string->symbol nm)))
   (define E1
@@ -82,52 +77,24 @@
      (datum->syntax #f 'zero)))
    (datum->syntax #f 'zero)))
 
-(define (old-use-site-scope)
-  (make-syntax-delta-introducer
-   ((old-macro-scope) (syntax-local-introduce (datum->syntax #f 'zero)) 'remove)
-   (datum->syntax #f 'zero)))
-
 (define (convert-macro-scopes stx)
   (if (sli-scopes)
-      (let* ([macro (car (sli-scopes))]
-             [use-site (cdr (sli-scopes))]
-             [old-macro (old-macro-scope)]
-             [old-use (old-use-site-scope)])
-        ((compose (if (use-site-context?)
-                      (replace-scope old-use use-site)
-                      (λ (x) x))
-                  (replace-scope old-macro macro))
-         stx))
+      (let* ([macro (sli-scopes)]
+             [old-macro (old-macro-scope)])
+        ((replace-scope old-macro macro) stx))
       ;; Otherwise leave unchanged.
       stx))
 
 (define ((named-transformer-wrap name f) stx)
-  (parameterize ([sli-scopes
-                  (cons (make-named-scope (format "macro: ~a" name))
-                        (if (use-site-context?)
-                            (make-named-scope (format "use-site: ~a" name))
-                            (make-syntax-delta-introducer
-                             (datum->syntax #f 'zero)
-                             (datum->syntax #f 'zero))))])
+  (parameterize ([sli-scopes (make-named-scope (format "macro: ~a" name))])
     ;;; TODO: we should detect the presence of old-* here instead, and 'add them
-    (displayln (+scopes stx))
-    (displayln (use-site-context?))
-    (displayln (+scopes (convert-macro-scopes stx)))
     (let ([res (f (convert-macro-scopes stx))])
       (when ((deep-has-scope (old-macro-scope)) res)
         (error (format "original macro scope appeared within the result of a named transformer: ~a\n~a\n~a"
                        res
                        (+scopes res)
                        (with-output-to-string (λ () (print-full-scopes))))))
-      (when (and (use-site-context?)
-                 ((deep-has-scope (old-use-site-scope)) res))
-        (error "original use-site scope appeared within the result of a named transformer"))
-      (let* ([/mm ((car (sli-scopes)) res 'flip)]
-             [/mm/uu (if (use-site-context?) ((cdr (sli-scopes)) /mm 'flip) /mm)]
-             [/mm/uu+m ((old-macro-scope) /mm/uu 'add)])
-        (if (use-site-context?)
-            ((old-use-site-scope) /mm/uu+m 'add)
-            /mm/uu+m)))))
+      ((old-macro-scope) ((sli-scopes) res 'flip) 'add))))
 
 (define-syntax-rule (named-transformer (name stx) . body)
   (named-transformer-wrap 'name (λ (stx) . body)))
@@ -136,11 +103,5 @@
 
 (define (-syntax-local-introduce stx)
   (if (sli-scopes)
-      ((cdr (sli-scopes)) ((car (sli-scopes)) stx 'flip)
-                          'flip)
-      (syntax-local-introduce stx)))
-
-(define (-syntax-local-identifier-as-binding stx)
-  (if (and (sli-scopes) (use-site-context?))
-      ((cdr (sli-scopes)) stx 'flip)
+      ((sli-scopes) stx 'flip)
       (syntax-local-introduce stx)))

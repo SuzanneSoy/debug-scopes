@@ -74,8 +74,6 @@
 
 @section{Hack for named scopes}
 
-@defmodule[debug-scopes/named-scopes]
-
 Module scopes bear are annotated by Racket with the name of the module. As of
 December 2016, other scopes like macro scopes@note{Both the ones implicitly
  created when a macro is called, and the ones explicitly created via

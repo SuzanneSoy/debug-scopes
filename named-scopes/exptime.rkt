@@ -1,10 +1,9 @@
 #lang racket
 
 (require (for-template '#%kernel)
-         debug-scopes
          racket/syntax
          racket/struct
-         debug-scopes
+         debug-scopes/superscripts
          debug-scopes/named-scopes-sli-parameter)
 
 (provide make-named-scope

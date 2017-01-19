@@ -50,7 +50,7 @@ script:
  #- raco pkg install --deps search-auto doc-coverage
  #- if $RACKET_VERSION != "6.5" -a $RACKET_VERSION != "6.6"; then raco doc-coverage debug-scopes; fi
  #- raco doc-coverage debug-scopes
+ - raco pkg install --deps search-auto cover cover-codecov
+ - raco cover -b -f codecov -d $TRAVIS_BUILD_DIR/coverage .
 
 after_success:
- - raco pkg install --deps search-auto cover cover-coveralls
- - raco cover -b -f coveralls -d $TRAVIS_BUILD_DIR/coverage .

@@ -7,6 +7,7 @@
          debug-scopes/named-scopes-sli-parameter)
 
 (provide make-named-scope
+         (rename-out [make-named-scope make-module-like-named-scope])
          named-transformer)
 
 (define (make-named-scope nm)

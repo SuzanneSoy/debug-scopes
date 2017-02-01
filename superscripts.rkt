@@ -118,29 +118,34 @@
 (define (sli/use whole-stx)
   ;(…)ˢˡⁱ⁼ ᵘˢᵉ⁼
   ;(…)ₛₗᵢ₌ ᵤₛₑ₌
-  (let* ([stx (datum->syntax whole-stx 'to-id)]
-         [sli (syntax-local-introduce stx)]
-         [stx-ids (extract-scope-ids stx)]
-         [sli-ids (extract-scope-ids sli)]
-         [stx-slb (syntax-local-identifier-as-binding stx)]
-         [sli-slb (syntax-local-identifier-as-binding sli)]
-         [stx-binding (extract-scope-ids stx-slb)]
-         [sli-binding (extract-scope-ids sli-slb)]
-         [use (append (set-symmetric-difference stx-ids stx-binding)
-                      (set-symmetric-difference sli-ids sli-binding))]
-         [stx/sli-use (set-subtract (set-symmetric-difference stx-ids sli-ids)
-                                    use)])
-    (format "ˢˡⁱ⁼~a⁺ᵘˢᵉ⁼~a~a"
-            (string-join (map digits->superscripts (map ~a stx/sli-use)) " ")
-            (string-join (map digits->superscripts (map ~a use)) " ")
-            (if (sli-scopes)
-                (let* ([named ((sli-scopes) (datum->syntax #f 'zero))]
-                       [named-scope-id (extract-scope-ids named)])
-                  (format "⁽ⁿᵃᵐᵉᵈ⁼~a⁾"
-                          (string-join (map digits->superscripts
-                                            (map ~a named-scope-id))
-                                       " ")))
-                ""))))
+  (if (syntax-transforming?)
+      (let* ([stx (datum->syntax whole-stx 'to-id)]
+             [sli (syntax-local-introduce stx)]
+             [stx-ids (extract-scope-ids stx)]
+             [sli-ids (extract-scope-ids sli)]
+             [stx-slb (syntax-local-identifier-as-binding stx)]
+             [sli-slb (syntax-local-identifier-as-binding sli)]
+             [stx-binding (extract-scope-ids stx-slb)]
+             [sli-binding (extract-scope-ids sli-slb)]
+             [use (append (set-symmetric-difference stx-ids stx-binding)
+                          (set-symmetric-difference sli-ids sli-binding))]
+             [stx/sli-use (set-subtract (set-symmetric-difference stx-ids
+                                                                  sli-ids)
+                                        use)])
+        (format "ˢˡⁱ⁼~a⁺ᵘˢᵉ⁼~a~a"
+                (string-join (map digits->superscripts (map ~a stx/sli-use))
+                             " ")
+                (string-join (map digits->superscripts (map ~a use))
+                             " ")
+                (if (sli-scopes)
+                    (let* ([named ((sli-scopes) (datum->syntax #f 'zero))]
+                           [named-scope-id (extract-scope-ids named)])
+                      (format "⁽ⁿᵃᵐᵉᵈ⁼~a⁾"
+                              (string-join (map digits->superscripts
+                                                (map ~a named-scope-id))
+                                           " ")))
+                    "")))
+      ""))
 
 (define (+scopes stx)
   (format "~a~a"

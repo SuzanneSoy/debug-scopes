@@ -74,6 +74,8 @@
 
 @section{Hack for named scopes}
 
+@defmodule[debug-scopes/named-scopes/exptime]
+
 Module scopes bear are annotated by Racket with the name of the module. As of
 December 2016, other scopes like macro scopes@note{Both the ones implicitly
  created when a macro is called, and the ones explicitly created via
@@ -87,7 +89,16 @@ any form of annotation or naming.
  implementation mechanism may vary in future versions, for example if later
  versions of Racket directly support the creation of named scopes,
  @racket[make-named-scope] would simply become an alias for the official
- mechanism.}
+ mechanism. Later versions of this function may therefore produce named scopes
+ other than module-like scopes.}
+
+@defproc[(make-module-like-named-scope [name (or/c string? symbol?)])
+         (->* (syntax?) ([or/c 'add 'remove 'flip]) syntax?)]{
+ Produces a named module-like scope. The @racket[make-named-scope] function
+ currently also produces a module-like scope, so the two are equivalent for now.
+ In later versions, @racket[make-named-scope] may produce other sorts of named
+ scopes if they can be created more efficiently, but
+ @racket[make-module-like-named-scope] will always produce module-like scopes.}
 
 @define[orig:define-syntax @racket[define-syntax]]
 @define[orig:syntax-local-introduce @racket[syntax-local-introduce]]

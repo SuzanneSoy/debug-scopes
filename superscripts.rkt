@@ -19,7 +19,7 @@
                    (string-join (map ~a (cdr (vector->list (cddr s))))
                                 " ")))
          scopes))
-  (define max-len (apply max (map string-length l)))
+  (define max-len (apply max 0 (map string-length l)))
   (define (pad str)
     (string-append
      str

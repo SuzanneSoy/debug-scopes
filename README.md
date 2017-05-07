@@ -25,7 +25,9 @@ Then, require one or several of the following modules:
 * `(print-full-scopes)` prints the long version of the scope information for
   the scopes used in preceeding calls to `+scopes`.
 
-    (require debug-scopes/named-scopes)
+```racket
+(require debug-scopes/named-scopes)
+```
 
 * (make-named-scope string-or-symbol) creates a scope similarly to
   `make-syntax-introducer`, but annotates it with a name. This is a hack which
@@ -34,7 +36,9 @@ Then, require one or several of the following modules:
   implementation, this returns a module scope instead of a macro scope like
   `make-syntax-introducer`.
 
-    (require debug-scopes/named-scopes/override)
+```racket
+(require debug-scopes/named-scopes/override)
+```
 
 * Overrides `define-syntax` and `syntax-local-introduce`. The overridden
   `syntax-local-introduce` works with the overridden `define-syntax` to flip a

@@ -64,13 +64,18 @@
 
  (foo (list 123))]}
 
-@defproc[(print-full-scopes) void?]{ Prints the long scope id and annotation
- for all scopes displayed as part of preceeding calls to @racket[+scopes], as
- would be shown by @racket[(hash-ref (syntax-debug-info stx) 'context)].
+@defproc[(print-full-scopes [reset? any/c #t]) void?]{ Prints the long scope id
+ and annotation for all scopes displayed as part of preceeding calls to
+ @racket[+scopes], as would be shown by
+ @racket[(hash-ref (syntax-debug-info stx) 'context)].
 
  This allows to get some extended information about the scopes in a summary
  table by calling @racket[print-full-scopes], while still getting short and
- readable display of syntax objects with @racket[+scopes].}
+ readable display of syntax objects with @racket[+scopes].
+
+ After running @racket[(print-full-scopes)], if @racket[reset?] is true, then
+ the scope counter is reset (and @racket[+scopes] therefore starts numbering
+ scopes starting from @racket[0] again).}
 
 @section{Hack for named scopes}
 

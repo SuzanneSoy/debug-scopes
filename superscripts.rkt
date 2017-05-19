@@ -10,7 +10,7 @@
 (define max-seen-scopes 0)
 (define seen-scopes (make-hash))
 
-(define (print-full-scopes)
+(define (print-full-scopes [reset? #t])
   (define scopes (sort (hash->list seen-scopes) < #:key cadr))
   (define l
     (map (λ (s)
@@ -30,8 +30,9 @@
                       (vector-ref (cddr s) 0)))
             scopes
             l)
-  (hash-clear! seen-scopes)
-  (set! max-seen-scopes 0))
+  (when reset?
+    (hash-clear! seen-scopes)
+    (set! max-seen-scopes 0)))
 
 (define (string-replace* str replacements)
   (if (null? replacements)

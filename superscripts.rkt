@@ -1,6 +1,7 @@
 #lang racket
 
 (require racket/syntax
+         racket/struct
          racket/string
          racket/format
          debug-scopes/named-scopes-sli-parameter)
@@ -114,6 +115,16 @@
     [(syntax? e) (datum->syntax e (add-scopes (syntax-e e)) e e)]
     [(pair? e) (cons (add-scopes (car e))
                      (add-scopes (cdr e)))]
+    [(box? e)
+     (box-immutable (add-scopes (unbox e)))]
+    [(vector? e)
+     (apply vector-immutable (map add-scopes (vector->list e)))]
+    [(hash? e)
+     (for/fold ([e e]) ([k (in-hash-keys e)])
+       (hash-update e k add-scopes))]
+    [(prefab-struct-key e)
+      (define key (prefab-struct-key e))
+      (apply make-prefab-struct key (map add-scopes (struct->list e)))]
     [else e]))
 
 (define (sli/use whole-stx)

@@ -4,6 +4,7 @@
          racket/struct
          racket/string
          racket/format
+         pretty-format
          debug-scopes/named-scopes-sli-parameter)
 
 (provide +scopes print-full-scopes)
@@ -160,9 +161,9 @@
       ""))
 
 (define (+scopes stx)
-  (format "~a~a"
-          (syntax->datum (add-scopes stx))
-          (sli/use stx)))
+  (pretty-format "~a~a"
+                 (syntax->datum (add-scopes stx))
+                 (sli/use stx)))
 
 #;(define-syntax (foo stx)
     (displayln (+scopes stx))

@@ -1,6 +1,7 @@
 #lang info
 (define collection "debug-scopes")
 (define deps '("base"
+               "pretty-format"
                "rackunit-lib"
                "reprovide-lang"))
 (define build-deps '("scribble-lib"

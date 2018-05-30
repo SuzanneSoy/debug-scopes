@@ -64,6 +64,28 @@
 
  (foo (list 123))]}
 
+You can combine @racket[+scopes] with @racketmodname[racket/trace] to trace
+scopes through expansion.
+@examples[
+  (require racket/trace (for-syntax racket/base racket/trace debug-scopes))
+  (begin-for-syntax
+    (define (maybe-syntax->scoped syn?)
+      (if (syntax? syn?)
+          (+scopes syn?)
+          syn?))
+    (current-trace-print-args
+      (let ([ctpa (current-trace-print-args)])
+        (lambda (s l kw l2 n)
+          (ctpa s (map maybe-syntax->scoped l) kw l2 n))))
+    (current-trace-print-results
+      (let ([ctpr (current-trace-print-results)])
+        (lambda (s l n)
+         (ctpr s (map maybe-syntax->scoped l) n)))))
+  (trace-define-syntax let
+    (syntax-rules ()
+      [(_ ([x v]) e) ((lambda (x) e) v)]))
+  (let ([x 5]) (let ([y 120]) y))]
+
 @defproc[(print-full-scopes [reset? any/c #t]) void?]{ Prints the long scope id
  and annotation for all scopes displayed as part of preceeding calls to
  @racket[+scopes], as would be shown by

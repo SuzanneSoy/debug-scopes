@@ -43,7 +43,8 @@
 
  (foo (list 123))]
 
- When using @racketmodname[debug-scopes/named-scopes], a named scope is often
+ When using named scopes---for example, via
+ @racketmodname[debug-scopes/named-scopes/override]---a named scope is often
  used instead of the macro scope flipped by @racket[syntax-local-introduce]. If
  @racket[+scopes] is called within that context, it also annotates the whole
  expression with the named scope which acts as a replacement for the macro

@@ -1,5 +1,5 @@
-[![Build Status,](https://img.shields.io/travis/jsmaniac/debug-scopes/master.svg)](https://travis-ci.org/jsmaniac/debug-scopes)
-[![Coverage Status,](https://img.shields.io/codecov/c/github/jsmaniac/debug-scopes/master.svg)](https://codecov.io/gh/jsmaniac/debug-scopes)
+[![Build Status,](https://img.shields.io/travis/jsmaniac/debug-scopes/main.svg)](https://travis-ci.org/jsmaniac/debug-scopes)
+[![Coverage Status,](https://img.shields.io/codecov/c/github/jsmaniac/debug-scopes/main.svg)](https://codecov.io/gh/jsmaniac/debug-scopes)
 [![Build Stats,](https://img.shields.io/badge/build-stats-blue.svg)](http://jsmaniac.github.io/travis-stats/#jsmaniac/debug-scopes)
 [![Online Documentation,](https://img.shields.io/badge/docs-online-blue.svg)](http://docs.racket-lang.org/debug-scopes/)
 [![Maintained as of 2018,](https://img.shields.io/maintenance/yes/2018.svg)](https://github.com/jsmaniac/debug-scopes/issues)

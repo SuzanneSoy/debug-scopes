@@ -2,7 +2,7 @@
 [![Coverage Status,](https://img.shields.io/codecov/c/github/jsmaniac/debug-scopes/main.svg)](https://codecov.io/gh/jsmaniac/debug-scopes)
 [![Build Stats,](https://img.shields.io/badge/build-stats-blue.svg)](http://jsmaniac.github.io/travis-stats/#jsmaniac/debug-scopes)
 [![Online Documentation,](https://img.shields.io/badge/docs-online-blue.svg)](http://docs.racket-lang.org/debug-scopes/)
-[![Maintained as of 2018,](https://img.shields.io/maintenance/yes/2018.svg)](https://github.com/jsmaniac/debug-scopes/issues)
+[![Maintained as of 2021,](https://img.shields.io/maintenance/yes/2021.svg)](https://github.com/jsmaniac/debug-scopes/issues)
 [![License: CC0 v1.0.](https://img.shields.io/badge/license-CC0-blue.svg)](https://creativecommons.org/publicdomain/zero/1.0/)
 
 debug-scopes
